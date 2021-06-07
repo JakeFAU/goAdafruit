@@ -127,6 +127,31 @@ func TestGroupCreate(t *testing.T) {
 	assert.Equal("test", group.Name)
 }
 
+func TestGroupFeedCreate(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/api/v2/test-user/groups/test/feeds",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"id": 1}]}`)
+		},
+	)
+
+	assert := assert.New(t)
+
+	ngroup := &Group{Name: "test"}
+	nfeed := &Feed{ID: 1}
+
+	feed, response, err := client.Group.CreateFeedInGroup(ngroup.Name, nfeed)
+
+	assert.Nil(err)
+	assert.NotNil(feed)
+	assert.NotNil(response)
+
+	assert.Equal(1, feed.ID)
+}
+
 func TestGroupUpdate(t *testing.T) {
 	setup()
 	defer teardown()
@@ -166,6 +191,53 @@ func TestGroupDelete(t *testing.T) {
 	assert := assert.New(t)
 
 	response, err := client.Group.Delete("test")
+
+	assert.Nil(err)
+	assert.NotNil(response)
+
+	assert.Equal(200, response.StatusCode)
+}
+
+func TestAddFeedToGroup(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/api/v2/test-user/groups/test/add",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"id": 1}]}`)
+		},
+	)
+
+	assert := assert.New(t)
+
+	ngroup := &Group{Name: "test"}
+	nfeed := &Feed{ID: 1}
+
+	feed, response, err := client.Group.AddFeedToGroup(ngroup.Name, nfeed)
+
+	assert.Nil(err)
+	assert.NotNil(feed)
+	assert.NotNil(response)
+
+	assert.Equal(1, feed.ID)
+
+}
+
+func TestRemoveFeedFromGroup(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/api/v2/test-user/groups/test/remove",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"id": 1}]}`)
+		},
+	)
+	nfeed := &Feed{ID: 1}
+	assert := assert.New(t)
+
+	response, err := client.Group.RemoveFeedFromGroup("test", nfeed)
 
 	assert.Nil(err)
 	assert.NotNil(response)

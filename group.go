@@ -3,15 +3,12 @@ package goadafruit
 import "fmt"
 
 type Group struct {
-	ID          int      `json:"id,omitempty"`
-	Name        string   `json:"name,omitempty"`
-	Description string   `json:"description,omitempty"`
-	CreatedAt   string   `json:"created_at,omitempty"`
-	UpdatedAt   string   `json:"updated_at,omitempty"`
-	Source      string   `json:"source,omitempty"`
-	SourceKeys  []string `json:"source_keys,omitempty"`
-	Feeds       []*Feed  `json:"feeds,omitempty"`
-	Visibility  string   `json:"visibility"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Feeds       []Feed `json:"feeds"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
 }
 
 type GroupService struct {
@@ -107,4 +104,79 @@ func (s *GroupService) Delete(id interface{}) (*Response, error) {
 	}
 
 	return resp, nil
+}
+
+// Create a feed in a group
+func (s *GroupService) CreateFeedInGroup(id interface{}, f *Feed) (*Feed, *Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/feeds", s.client.Username, id)
+
+	req, rerr := s.client.NewRequest("POST", path, f)
+	if rerr != nil {
+		return nil, nil, rerr
+	}
+
+	var feed Feed
+	resp, err := s.client.Do(req, &feed)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &feed, resp, nil
+
+}
+
+// Add a feed to a group
+func (s GroupService) AddFeedToGroup(id interface{}, f *Feed) (*Feed, *Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/add", s.client.Username, id)
+
+	req, rerr := s.client.NewRequest("POST", path, f)
+	if rerr != nil {
+		return nil, nil, rerr
+	}
+
+	var feed Feed
+	resp, err := s.client.Do(req, &feed)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &feed, resp, nil
+}
+
+// Remove a feed from a group
+func (s GroupService) RemoveFeedFromGroup(id interface{}, f *Feed) (*Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/remove", s.client.Username, id)
+
+	req, rerr := s.client.NewRequest("POST", path, f)
+	if rerr != nil {
+		return nil, rerr
+	}
+
+	var feed Feed
+	resp, err := s.client.Do(req, &feed)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
+}
+
+// List all group feeds
+func (s GroupService) ListGroupFeeds(id interface{}) ([]*Feed, *Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/feeds", s.client.Username, id)
+
+	req, rerr := s.client.NewRequest("GET", path, nil)
+	if rerr != nil {
+		return nil, nil, rerr
+	}
+
+	// request populates Feed slice
+	feeds := make([]*Feed, 0)
+	resp, err := s.client.Do(req, &feeds)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return feeds, resp, nil
+
 }

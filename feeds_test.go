@@ -56,6 +56,30 @@ func TestFeedGet(t *testing.T) {
 	assert.Equal("test", feed.Name)
 }
 
+func TestFeedGetDetails(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/api/v2/test-user/feeds/test/details",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "GET")
+			fmt.Fprint(w, `{"id":1, "name":"test"}`)
+		},
+	)
+
+	assert := assert.New(t)
+
+	defer teardown()
+	feed, response, err := client.Feed.GetDetails("test")
+
+	assert.Nil(err)
+	assert.NotNil(feed)
+	assert.NotNil(response)
+
+	assert.Equal(1, feed.ID)
+	assert.Equal("test", feed.Name)
+}
+
 func TestFeedCreate(t *testing.T) {
 	setup()
 	defer teardown()
