@@ -19,13 +19,13 @@ func (s *TriggerService) All() ([]*Trigger, *Response, error) {
 	}
 
 	// request populates Triggers slice
-	feeds := make([]*Trigger, 0)
-	resp, err := s.client.Do(req, &feeds)
+	triggers := make([]*Trigger, 0)
+	resp, err := s.client.Do(req, &triggers)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return feeds, resp, nil
+	return triggers, resp, nil
 }
 
 func (s *TriggerService) Create(t *Trigger) (*Trigger, *Response, error) {
