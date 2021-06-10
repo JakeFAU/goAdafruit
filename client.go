@@ -36,6 +36,7 @@ type Client struct {
 	Trigger    *TriggerService
 	Activities *ActivitiesService
 	Blocks     *BlockService
+	Dashboard  *DashboardService
 }
 
 // Response wraps http.Response and adds fields unique to Adafruit's API.
@@ -86,6 +87,7 @@ func NewClient(key string, username string) *Client {
 	c.Trigger = &TriggerService{client: c}
 	c.Activities = &ActivitiesService{client: c}
 	c.Blocks = &BlockService{client: c}
+	c.Dashboard = &DashboardService{client: c}
 
 	return c
 }
