@@ -33,6 +33,7 @@ type Client struct {
 	Data    *DataService
 	User    *UserService
 	Webhook *WebhookService
+	Trigger *TriggerService
 }
 
 // Response wraps http.Response and adds fields unique to Adafruit's API.
@@ -80,6 +81,7 @@ func NewClient(key string, username string) *Client {
 	c.Group = &GroupService{client: c}
 	c.User = &UserService{client: c}
 	c.Webhook = &WebhookService{client: c}
+	c.Trigger = &TriggerService{client: c}
 
 	return c
 }
