@@ -3,6 +3,9 @@ package goadafruit
 import (
 	"fmt"
 	"io"
+	"log"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -115,6 +118,22 @@ func (s *DataService) All(opt *DataFilter) ([]*Data, *Response, error) {
 	resp, err := s.client.Do(req, &datas)
 	if err != nil {
 		return nil, resp, err
+	}
+
+	for moredata(resp) {
+		links := resp.Header.Get("Link")
+		dataLink := strings.Split(links, ",")[1]
+		dataLink = dataLink[2 : len(dataLink)-1]
+		req, rerr = s.client.NewRequest("GET", dataLink, nil)
+		d := make([]*Data, 0)
+		resp, err = s.client.Do(req, &d)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, p := range d {
+			datas = append(datas, p)
+		}
+
 	}
 
 	return datas, resp, nil
@@ -332,4 +351,12 @@ func (s *DataService) CreateDatumInGroup(groupKey string, dp *[]Data) (*Data, *R
 
 	return point, resp, nil
 
+}
+
+func moredata(r *Response) bool {
+	count, _ := strconv.ParseInt(r.Header.Get("X-Pagination-Count"), 10, 64)
+	limit, _ := strconv.ParseInt(r.Header.Get("X-Pagination-Limit"), 10, 64)
+	total, _ := strconv.ParseInt(r.Header.Get("X-Pagination-Total"), 10, 64)
+
+	return (count == limit) && total > limit
 }
