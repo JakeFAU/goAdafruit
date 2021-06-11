@@ -39,6 +39,7 @@ type Client struct {
 	Dashboard  *DashboardService
 	Permission *PermissionService
 	Tokens     *TokenService
+	Utils      *UtilService
 }
 
 // Response wraps http.Response and adds fields unique to Adafruit's API.
@@ -92,6 +93,7 @@ func NewClient(key string, username string) *Client {
 	c.Dashboard = &DashboardService{client: c}
 	c.Permission = &PermissionService{client: c}
 	c.Tokens = &TokenService{client: c}
+	c.Utils = &UtilService{client: c}
 
 	return c
 }

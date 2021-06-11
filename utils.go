@@ -12,11 +12,11 @@ type DateStruct struct {
 	Isdst int `json:"isdst"`
 }
 
-type TimeService struct {
+type UtilService struct {
 	client *Client
 }
 
-func (s *TimeService) UnixSeconds() (*int, *Response, error) {
+func (s *UtilService) UnixSeconds() (*int64, *Response, error) {
 	path := "/api/v2/time/seconds"
 
 	req, rerr := s.client.NewRequest("GET", path, nil)
@@ -24,7 +24,7 @@ func (s *TimeService) UnixSeconds() (*int, *Response, error) {
 		return nil, nil, rerr
 	}
 
-	var tm int
+	var tm int64
 	resp, err := s.client.Do(req, tm)
 	if err != nil {
 		return &tm, resp, err
@@ -33,7 +33,7 @@ func (s *TimeService) UnixSeconds() (*int, *Response, error) {
 
 }
 
-func (s *TimeService) UnixMilliSeconds() (*float32, *Response, error) {
+func (s *UtilService) UnixMilliSeconds() (*float64, *Response, error) {
 	path := "/api/v2/time/millis"
 
 	req, rerr := s.client.NewRequest("GET", path, nil)
@@ -41,7 +41,7 @@ func (s *TimeService) UnixMilliSeconds() (*float32, *Response, error) {
 		return nil, nil, rerr
 	}
 
-	var tm float32
+	var tm float64
 	resp, err := s.client.Do(req, tm)
 	if err != nil {
 		return &tm, resp, err
@@ -49,7 +49,7 @@ func (s *TimeService) UnixMilliSeconds() (*float32, *Response, error) {
 	return &tm, resp, nil
 }
 
-func (s *TimeService) ISOTime() (*string, *Response, error) {
+func (s *UtilService) ISOTime() (*string, *Response, error) {
 	path := "/api/v2/time/ISO-8601"
 
 	req, rerr := s.client.NewRequest("GET", path, nil)
