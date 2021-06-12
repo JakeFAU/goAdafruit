@@ -10,6 +10,7 @@ import (
 	aio "github.com/jakefau/goAdafruit"
 )
 
+// connect to the API
 func connect() aio.Client {
 	// basic stuff
 	username := "JakeFau"
@@ -18,15 +19,18 @@ func connect() aio.Client {
 	key := os.Getenv("ADAFRUIT_IO_KEY")
 	// get a client
 	client := aio.NewClient(key, username)
+	// set the base url, aka the host
 	client.BaseURL, _ = url.Parse(baseURL)
 	return *client
 }
 
 func main() {
+	// the bme280 Go driver
 	bme := bme280_go.BME280{}
-
+	// The bme280 uses i2c to communicate
 	dev := "/dev/i2c-1"
 	bme.BME280Init(dev, 0x77)
+	// Get the data
 	readings := bme.BME280ReadValues()
 	fmt.Printf("%v, %v, %v", readings.Temperature, readings.Humidity, readings.Pressure)
 

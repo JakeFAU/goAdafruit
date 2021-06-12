@@ -17,6 +17,7 @@ var (
 	username string
 )
 
+// connect with the Adafruit IO API
 func connect() aio.Client {
 	// basic stuff
 	username := "JakeFau"
@@ -29,6 +30,7 @@ func connect() aio.Client {
 	return *client
 }
 
+// List all the groups associated with the key
 func ListAllGroups() {
 	client := connect()
 	groups, _, err := client.Group.All()
@@ -44,6 +46,7 @@ func ListAllGroups() {
 	}
 }
 
+// list all the feeds associated with the key
 func ListAllFeeds() {
 	client := connect()
 	feeds, _, err := client.Feed.All()
@@ -59,14 +62,15 @@ func ListAllFeeds() {
 	}
 }
 
+// get data from a feed
 func GetDataForFeed() {
 	client := connect()
+	//be sure to change the feed to one in your account
 	feed, _, err := client.Feed.Get("weather.humidity")
 	if err != nil {
 		log.Fatal(err)
 	}
 	client.SetFeed(feed)
-	// choose the key from one of your feeds
 	data, _, err := client.Data.All(nil)
 	dataJSON, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
