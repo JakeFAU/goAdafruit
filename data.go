@@ -11,35 +11,35 @@ import (
 
 // Data are the values contained by a Feed.
 type Data struct {
-	ID        string `json:"id"`
-	Value     string `json:"value"`
-	FeedID    int    `json:"feed_id"`
-	FeedKey   string `json:"feed_key"`
-	CreatedAt string `json:"created_at"`
+	ID        string `json:"id,omitempty"`
+	Value     string `json:"value,omitempty"`
+	FeedID    int    `json:"feed_id,omitempty"`
+	FeedKey   string `json:"feed_key,omitempty"`
+	CreatedAt string `json:"created_at,omitempty"`
 	Location  struct {
-	} `json:"location"`
-	Lat          float64 `json:"lat"`
-	Lon          float64 `json:"lon"`
-	Ele          float64 `json:"ele"`
-	CreatedEpoch int     `json:"created_epoch"`
-	Expiration   string  `json:"expiration"`
+	} `json:"location,omitempty"`
+	Lat          float64 `json:"lat,omitempty"`
+	Lon          float64 `json:"lon,omitempty"`
+	Ele          float64 `json:"ele,omitempty"`
+	CreatedEpoch int     `json:"created_epoch,omitempty"`
+	Expiration   string  `json:"expiration,omitempty"`
 }
 
 type ChartData struct {
 	Feed struct {
-		ID   string `json:"id"`
-		Key  string `json:"key"`
-		Name string `json:"name"`
-	} `json:"feed"`
+		ID   string `json:"id,omitempty"`
+		Key  string `json:"key,omitempty"`
+		Name string `json:"name,omitempty"`
+	} `json:"feed,omitempty"`
 	Parameters struct {
-		StartTime  time.Time `json:"start_time"`
-		EndTime    time.Time `json:"end_time"`
-		Resolution int       `json:"resolution"`
-		Hours      int       `json:"hours"`
-		Field      string    `json:"field"`
-	} `json:"parameters"`
-	Columns []string        `json:"columns"`
-	Data    [][]interface{} `json:"data"`
+		StartTime  time.Time `json:"start_time,omitempty"`
+		EndTime    time.Time `json:"end_time,omitempty"`
+		Resolution int       `json:"resolution,omitempty"`
+		Hours      int       `json:"hours,omitempty"`
+		Field      string    `json:"field,omitempty"`
+	} `json:"parameters,omitempty"`
+	Columns []string        `json:"columns,omitempty"`
+	Data    [][]interface{} `json:"data,omitempty"`
 }
 
 type DataFilter struct {

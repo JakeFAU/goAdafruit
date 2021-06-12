@@ -11,25 +11,25 @@ type Details struct {
 }
 
 type Feed struct {
-	ID            int     `json:"id"`
-	Name          string  `json:"name"`
-	Key           string  `json:"key"`
-	Group         Group   `json:"group"`
-	Groups        []Group `json:"groups"`
-	Description   string  `json:"description"`
-	Details       Details `json:"details"`
-	UnitType      string  `json:"unit_type"`
-	UnitSymbol    string  `json:"unit_symbol"`
-	History       bool    `json:"history"`
-	Visibility    string  `json:"visibility"`
-	License       string  `json:"license"`
-	Enabled       bool    `json:"enabled"`
-	LastValue     string  `json:"last_value"`
-	Status        string  `json:"status"`
-	StatusNotify  bool    `json:"status_notify"`
-	StatusTimeout int     `json:"status_timeout"`
-	CreatedAt     string  `json:"created_at"`
-	UpdatedAt     string  `json:"updated_at"`
+	ID            int     `json:"id,omitempty"`
+	Name          string  `json:"name,omitempty"`
+	Key           string  `json:"key,omitempty"`
+	Group         Group   `json:"group,omitempty"`
+	Groups        []Group `json:"groups,omitempty"`
+	Description   string  `json:"description,omitempty"`
+	Details       Details `json:"details,omitempty"`
+	UnitType      string  `json:"unit_type,omitempty"`
+	UnitSymbol    string  `json:"unit_symbol,omitempty"`
+	History       bool    `json:"history,omitempty"`
+	Visibility    string  `json:"visibility,omitempty"`
+	License       string  `json:"license,omitempty"`
+	Enabled       bool    `json:"enabled,omitempty"`
+	LastValue     string  `json:"last_value,omitempty"`
+	Status        string  `json:"status,omitempty"`
+	StatusNotify  bool    `json:"status_notify,omitempty"`
+	StatusTimeout int     `json:"status_timeout,omitempty"`
+	CreatedAt     string  `json:"created_at,omitempty"`
+	UpdatedAt     string  `json:"updated_at,omitempty"`
 }
 
 type FeedService struct {
