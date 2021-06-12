@@ -6,7 +6,6 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // Data are the values contained by a Feed.
@@ -25,21 +24,9 @@ type Data struct {
 	Expiration   string  `json:"expiration,omitempty"`
 }
 
-type ChartData struct {
-	Feed struct {
-		ID   string `json:"id,omitempty"`
-		Key  string `json:"key,omitempty"`
-		Name string `json:"name,omitempty"`
-	} `json:"feed,omitempty"`
-	Parameters struct {
-		StartTime  time.Time `json:"start_time,omitempty"`
-		EndTime    time.Time `json:"end_time,omitempty"`
-		Resolution int       `json:"resolution,omitempty"`
-		Hours      int       `json:"hours,omitempty"`
-		Field      string    `json:"field,omitempty"`
-	} `json:"parameters,omitempty"`
-	Columns []string        `json:"columns,omitempty"`
-	Data    [][]interface{} `json:"data,omitempty"`
+type DataPoint struct {
+	X string `json:"X"`
+	Y string `json:"Y"`
 }
 
 type DataFilter struct {
@@ -140,7 +127,7 @@ func (s *DataService) All(opt *DataFilter) ([]*Data, *Response, error) {
 }
 
 // returns the feed data ready for charting
-func (s *DataService) GetChartData(opt *DataFilter) (*ChartData, *Response, error) {
+func (s *DataService) GetChartData(opt *DataFilter) ([]*DataPoint, *Response, error) {
 	path, ferr := s.client.Feed.Path("/data/chart")
 	if ferr != nil {
 		return nil, nil, ferr
@@ -155,14 +142,58 @@ func (s *DataService) GetChartData(opt *DataFilter) (*ChartData, *Response, erro
 	if rerr != nil {
 		return nil, nil, rerr
 	}
-	// request populates a new datapoint
-	chartData := &ChartData{}
-	resp, err := s.client.Do(req, chartData)
+
+	// request populates Feed slice
+	var datas map[string]interface{}
+	resp, err := s.client.Do(req, &datas)
 	if err != nil {
 		return nil, resp, err
 	}
+	var points []*DataPoint
+	for k, v := range datas {
+		if k == "data" {
+			for _, vv := range v.([]interface{}) {
+				var point DataPoint
+				for _, vvv := range vv.([]interface{}) {
+					if point.X == "" {
+						point.X = vvv.(string)
+					} else {
+						point.Y = vvv.(string)
+					}
+				}
+				points = append(points, &point)
+			}
+		}
+	}
 
-	return chartData, resp, nil
+	for moredata(resp) {
+		links := resp.Header.Get("Link")
+		dataLink := strings.Split(links, ",")[1]
+		dataLink = dataLink[2 : len(dataLink)-1]
+		req, rerr = s.client.NewRequest("GET", dataLink, nil)
+		resp, err = s.client.Do(req, &datas)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for k, v := range datas {
+			if k == "data" {
+				for _, vv := range v.([]interface{}) {
+					var point DataPoint
+					for _, vvv := range vv.([]interface{}) {
+						if point.X == "" {
+							point.X = vvv.(string)
+						} else {
+							point.Y = vvv.(string)
+						}
+					}
+					points = append(points, &point)
+				}
+			}
+		}
+
+	}
+
+	return points, resp, nil
 
 }
 
