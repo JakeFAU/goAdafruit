@@ -1,22 +1,42 @@
 package goadafruit
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Block struct {
-	Name        string       `json:"name"`
-	Description string       `json:"description"`
-	Key         string       `json:"key"`
-	VisualType  string       `json:"visual_type"`
-	Column      int          `json:"column"`
-	Row         int          `json:"row"`
-	SizeX       int          `json:"size_x"`
-	SizeY       int          `json:"size_y"`
-	BlockFeeds  []BlockFeeds `json:"block_feeds"`
+	ID         int          `json:"id"`
+	Name       string       `json:"name"`
+	VisualType string       `json:"visual_type"`
+	Column     interface{}  `json:"column"`
+	Row        interface{}  `json:"row"`
+	SizeX      interface{}  `json:"size_x"`
+	SizeY      interface{}  `json:"size_y"`
+	SourceKey  interface{}  `json:"source_key"`
+	Source     interface{}  `json:"source"`
+	Properties Properties   `json:"properties"`
+	CreatedAt  time.Time    `json:"created_at"`
+	UpdatedAt  time.Time    `json:"updated_at"`
+	BlockFeeds []BlockFeeds `json:"block_feeds"`
 }
+type Properties struct {
+	XAxisLabel    string `json:"xAxisLabel"`
+	YAxisLabel    string `json:"yAxisLabel"`
+	YAxisMin      string `json:"yAxisMin"`
+	YAxisMax      string `json:"yAxisMax"`
+	DecimalPlaces string `json:"decimalPlaces"`
+	RawDataOnly   bool   `json:"rawDataOnly"`
+	SteppedLine   bool   `json:"steppedLine"`
+	FeedKeyLegend bool   `json:"feedKeyLegend"`
+	GridLines     bool   `json:"gridLines"`
+	HistoryHours  string `json:"historyHours"`
+}
+
 type BlockFeeds struct {
-	ID    string `json:"id"`
-	Feed  string `json:"feed"`
-	Group string `json:"group"`
+	ID    int   `json:"id"`
+	Feed  Feed  `json:"feed"`
+	Group Group `json:"group"`
 }
 
 type BlockService struct {
