@@ -1,16 +1,24 @@
 package goadafruit
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Activities struct {
-	ID     int    `json:"id"`
-	Action string `json:"action"`
-	Model  string `json:"model"`
-	Data   struct {
-	} `json:"data"`
-	UserID    int    `json:"user_id"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
+	Username  string    `json:"username"`
+	Owner     Owner     `json:"owner"`
+	ID        int       `json:"id"`
+	Action    string    `json:"action"`
+	Model     string    `json:"model"`
+	Data      string    `json:"data"`
+	UserID    int       `json:"user_id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+type Owner struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
 }
 
 type ActivitiesService struct {

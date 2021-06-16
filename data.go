@@ -111,15 +111,13 @@ func (s *DataService) All(opt *DataFilter) ([]*Data, *Response, error) {
 		links := resp.Header.Get("Link")
 		dataLink := strings.Split(links, ",")[1]
 		dataLink = dataLink[2 : len(dataLink)-1]
-		req, rerr = s.client.NewRequest("GET", dataLink, nil)
+		req, _ = s.client.NewRequest("GET", dataLink, nil)
 		d := make([]*Data, 0)
 		resp, err = s.client.Do(req, &d)
 		if err != nil {
 			log.Fatal(err)
 		}
-		for _, p := range d {
-			datas = append(datas, p)
-		}
+		datas = append(datas, d...)
 
 	}
 
@@ -170,7 +168,7 @@ func (s *DataService) GetChartData(opt *DataFilter) ([]*DataPoint, *Response, er
 		links := resp.Header.Get("Link")
 		dataLink := strings.Split(links, ",")[1]
 		dataLink = dataLink[2 : len(dataLink)-1]
-		req, rerr = s.client.NewRequest("GET", dataLink, nil)
+		req, _ = s.client.NewRequest("GET", dataLink, nil)
 		resp, err = s.client.Do(req, &datas)
 		if err != nil {
 			log.Fatal(err)
@@ -340,7 +338,7 @@ func (s *DataService) MostRecent() (*string, *Response, error) {
 	}
 	defer resp.Body.Close()
 
-	b, err := io.ReadAll(resp.Body)
+	b, _ := io.ReadAll(resp.Body)
 	bd := string(b)
 	return &bd, resp, nil
 

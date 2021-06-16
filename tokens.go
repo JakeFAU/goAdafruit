@@ -11,7 +11,7 @@ type TokenService struct {
 }
 
 func (s *TokenService) GetAllTokens() ([]*Token, *Response, error) {
-	path := fmt.Sprint("/api/v2/test-user/tokens")
+	path := fmt.Sprintf("/api/v2/%v/tokens", s.client.Username)
 
 	req, rerr := s.client.NewRequest("GET", path, nil)
 	if rerr != nil {
@@ -30,7 +30,7 @@ func (s *TokenService) GetAllTokens() ([]*Token, *Response, error) {
 }
 
 func (s *TokenService) CreateToken(t Token) (*Token, *Response, error) {
-	path := fmt.Sprint("/api/v2/test-user/tokens")
+	path := fmt.Sprintf("/api/v2/%v/tokens", s.client.Username)
 
 	req, rerr := s.client.NewRequest("POST", path, t)
 	if rerr != nil {
@@ -46,7 +46,7 @@ func (s *TokenService) CreateToken(t Token) (*Token, *Response, error) {
 }
 
 func (s *TokenService) GetToken(id string) (*Token, *Response, error) {
-	path := fmt.Sprint("/api/v2/test-user/tokens/1")
+	path := fmt.Sprintf("/api/v2/%v/tokens/%v", s.client.Username, id)
 
 	req, rerr := s.client.NewRequest("GET", path, nil)
 	if rerr != nil {
@@ -64,7 +64,7 @@ func (s *TokenService) GetToken(id string) (*Token, *Response, error) {
 }
 
 func (s *TokenService) DeleteToken(id string, tok Token) (*Response, error) {
-	path := fmt.Sprintf("/api/v2/test-user/tokens/%v", id)
+	path := fmt.Sprintf("/api/v2/%v/tokens/%v", s.client.Username, id)
 
 	req, rerr := s.client.NewRequest("DELETE", path, tok)
 	if rerr != nil {
