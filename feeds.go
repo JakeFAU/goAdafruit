@@ -3,33 +3,47 @@ package goadafruit
 import (
 	"fmt"
 	"path"
+	"time"
 )
 
-type Details struct {
-	SharedWith interface{} `json:"shared_with"`
-	Data       Data        `json:"data"`
+type Feed struct {
+	Username             string              `json:"username"`
+	Owner                Owner               `json:"owner"`
+	ID                   int                 `json:"id"`
+	Name                 string              `json:"name"`
+	Description          string              `json:"description"`
+	License              interface{}         `json:"license"`
+	History              bool                `json:"history"`
+	Enabled              bool                `json:"enabled"`
+	Visibility           string              `json:"visibility"`
+	UnitType             interface{}         `json:"unit_type"`
+	UnitSymbol           interface{}         `json:"unit_symbol"`
+	LastValue            string              `json:"last_value"`
+	CreatedAt            time.Time           `json:"created_at"`
+	UpdatedAt            time.Time           `json:"updated_at"`
+	StatusNotify         bool                `json:"status_notify"`
+	StatusTimeout        int                 `json:"status_timeout"`
+	Status               string              `json:"status"`
+	Key                  string              `json:"key"`
+	Writable             bool                `json:"writable"`
+	Group                Group               `json:"group"`
+	Groups               []Groups            `json:"groups"`
+	FeedWebhookReceivers []interface{}       `json:"feed_webhook_receivers"`
+	FeedStatusChanges    []FeedStatusChanges `json:"feed_status_changes"`
 }
 
-type Feed struct {
-	ID            int     `json:"id,omitempty"`
-	Name          string  `json:"name,omitempty"`
-	Key           string  `json:"key,omitempty"`
-	Group         Group   `json:"group,omitempty"`
-	Groups        []Group `json:"groups,omitempty"`
-	Description   string  `json:"description,omitempty"`
-	Details       Details `json:"details,omitempty"`
-	UnitType      string  `json:"unit_type,omitempty"`
-	UnitSymbol    string  `json:"unit_symbol,omitempty"`
-	History       bool    `json:"history,omitempty"`
-	Visibility    string  `json:"visibility,omitempty"`
-	License       string  `json:"license,omitempty"`
-	Enabled       bool    `json:"enabled,omitempty"`
-	LastValue     string  `json:"last_value,omitempty"`
-	Status        string  `json:"status,omitempty"`
-	StatusNotify  bool    `json:"status_notify,omitempty"`
-	StatusTimeout int     `json:"status_timeout,omitempty"`
-	CreatedAt     string  `json:"created_at,omitempty"`
-	UpdatedAt     string  `json:"updated_at,omitempty"`
+type Groups struct {
+	ID     int    `json:"id"`
+	Key    string `json:"key"`
+	Name   string `json:"name"`
+	UserID int    `json:"user_id"`
+}
+type FeedStatusChanges struct {
+	CreatedAt   time.Time   `json:"created_at"`
+	FromStatus  string      `json:"from_status"`
+	ToStatus    string      `json:"to_status"`
+	EmailSent   interface{} `json:"email_sent"`
+	EmailSentTo interface{} `json:"email_sent_to"`
 }
 
 type FeedService struct {
