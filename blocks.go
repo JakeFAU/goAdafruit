@@ -32,11 +32,8 @@ type Properties struct {
 	GridLines     bool   `json:"gridLines"`
 	HistoryHours  string `json:"historyHours"`
 }
-
 type BlockFeeds struct {
-	ID    int   `json:"id"`
-	Feed  Feed  `json:"feed"`
-	Group Group `json:"group"`
+	ID int `json:"id"`
 }
 
 type BlockService struct {
