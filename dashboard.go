@@ -1,12 +1,24 @@
 package goadafruit
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Dashboard struct {
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Key         string  `json:"key"`
-	Blocks      []Block `json:"blocks"`
+	Username       string      `json:"username"`
+	Owner          Owner       `json:"owner"`
+	ID             int         `json:"id"`
+	Name           string      `json:"name"`
+	Key            string      `json:"key"`
+	Description    string      `json:"description"`
+	Visibility     string      `json:"visibility"`
+	CreatedAt      time.Time   `json:"created_at"`
+	UpdatedAt      time.Time   `json:"updated_at"`
+	ShowHeader     bool        `json:"show_header"`
+	ColorMode      string      `json:"color_mode"`
+	BlockBorders   bool        `json:"block_borders"`
+	HeaderImageURL interface{} `json:"header_image_url"`
 }
 
 type DashboardService struct {
