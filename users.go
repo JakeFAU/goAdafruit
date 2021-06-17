@@ -27,10 +27,10 @@ type User struct {
 				DataRate   int `json:"data_rate"`
 			} `json:"limits"`
 			Plan struct {
-				Name       string `json:"name"`
-				Price      int    `json:"price"`
-				Interval   string `json:"interval"`
-				StripeID   string `json:"stripe_id"`
+				Name       string  `json:"name"`
+				Price      float64 `json:"price"`
+				Interval   string  `json:"interval"`
+				StripeID   string  `json:"stripe_id"`
 				BaseLimits struct {
 					Feeds      int `json:"feeds"`
 					Dashboards int `json:"dashboards"`
@@ -76,7 +76,7 @@ type User struct {
 				DataTTL    int `json:"data_ttl"`
 				DataRate   int `json:"data_rate"`
 			} `json:"limits"`
-			Price    int           `json:"price"`
+			Price    float64       `json:"price"`
 			Upgrades []interface{} `json:"upgrades"`
 		} `json:"subscription"`
 		HasBillingHistory bool        `json:"has_billing_history"`
