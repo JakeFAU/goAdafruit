@@ -57,7 +57,7 @@ func (s *BlockService) AllBlocks(dashboardID string) ([]*Block, *Response, error
 	return blocks, resp, nil
 }
 
-func (s *BlockService) CreateBlock(dashboardID string, b Block) (*Block, *Response, error) {
+func (s *BlockService) CreateBlock(dashboardID string, b *Block) (*Block, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/dashboards/%v/blocks", s.client.Username, dashboardID)
 	req, rerr := s.client.NewRequest("POST", path, b)
 	if rerr != nil {
@@ -68,7 +68,7 @@ func (s *BlockService) CreateBlock(dashboardID string, b Block) (*Block, *Respon
 		return nil, resp, err
 	}
 
-	return &b, resp, nil
+	return b, resp, nil
 }
 
 func (s *BlockService) GetBlock(dashboardID string, blockID string) (*Block, *Response, error) {
