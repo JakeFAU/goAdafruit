@@ -66,7 +66,7 @@ func (s *DashboardService) GetDashboard(id string) (*Dashboard, *Response, error
 		return nil, nil, rerr
 	}
 
-	d := Dashboard{Name: "DB1"}
+	d := Dashboard{}
 
 	resp, err := s.client.Do(req, &d)
 	if err != nil {
