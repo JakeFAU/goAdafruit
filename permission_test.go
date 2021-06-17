@@ -39,7 +39,7 @@ func TestCreatePermission(t *testing.T) {
 	assert := assert.New(t)
 
 	p := Permission{ID: 1, UserID: 11023}
-	permission, response, err := client.Permission.CreatePermission(p, "feed", "1")
+	permission, response, err := client.Permission.CreatePermission(&p, "feed", "1")
 
 	assert.Nil(err)
 	assert.NotNil(permission)

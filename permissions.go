@@ -35,7 +35,7 @@ func (s *PermissionService) AllPermissions() ([]*Permission, *Response, error) {
 	return perms, resp, nil
 }
 
-func (s *PermissionService) CreatePermission(p Permission, ptype string, typeid string) (*Permission, *Response, error) {
+func (s *PermissionService) CreatePermission(p *Permission, ptype string, typeid string) (*Permission, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/%v/%v/acl", s.client.Username, ptype, typeid)
 
 	req, rerr := s.client.NewRequest("POST", path, p)
@@ -47,7 +47,7 @@ func (s *PermissionService) CreatePermission(p Permission, ptype string, typeid 
 		return nil, resp, err
 	}
 
-	return &p, resp, nil
+	return p, resp, nil
 }
 
 func (s *PermissionService) GetPermission(ptype string, typeid string, pid string) (*Permission, *Response, error) {
