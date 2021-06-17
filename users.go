@@ -53,10 +53,10 @@ type User struct {
 		Subscription      struct {
 			ID   interface{} `json:"id"`
 			Plan struct {
-				Name       string `json:"name"`
-				Price      int    `json:"price"`
-				Interval   string `json:"interval"`
-				StripeID   string `json:"stripe_id"`
+				Name       string  `json:"name"`
+				Price      float64 `json:"price"`
+				Interval   string  `json:"interval"`
+				StripeID   string  `json:"stripe_id"`
 				BaseLimits struct {
 					Feeds      int `json:"feeds"`
 					Dashboards int `json:"dashboards"`
