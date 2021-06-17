@@ -61,7 +61,7 @@ func TestCreateBlock(t *testing.T) {
 	assert := assert.New(t)
 	b := Block{Name: "Indoor"}
 
-	block, response, err := client.Blocks.CreateBlock("1", b)
+	block, response, err := client.Blocks.CreateBlock("1", &b)
 
 	assert.Nil(err)
 	assert.NotNil(block)
