@@ -42,7 +42,7 @@ func (s *DashboardService) AllDashboards() ([]*Dashboard, *Response, error) {
 	return boards, resp, nil
 }
 
-func (s *DashboardService) CreateDashboard(d Dashboard) (*Dashboard, *Response, error) {
+func (s *DashboardService) CreateDashboard(d *Dashboard) (*Dashboard, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/dashboards", s.client.Username)
 
 	req, rerr := s.client.NewRequest("POST", path, d)
