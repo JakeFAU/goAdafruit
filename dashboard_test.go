@@ -42,7 +42,7 @@ func TestCreateDashboard(t *testing.T) {
 	assert := assert.New(t)
 
 	d := Dashboard{Name: "Dashboard1"}
-	dashboard, response, err := client.Dashboard.CreateDashboard(d)
+	dashboard, response, err := client.Dashboard.CreateDashboard(&d)
 
 	assert.Nil(err)
 	assert.NotNil(dashboard)

@@ -54,7 +54,7 @@ func (s *DashboardService) CreateDashboard(d *Dashboard) (*Dashboard, *Response,
 		return nil, resp, err
 	}
 
-	return &d, resp, nil
+	return d, resp, nil
 
 }
 
