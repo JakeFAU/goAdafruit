@@ -126,7 +126,7 @@ func (s *FeedService) GetDetails(id interface{}) (*Feed, *Response, error) {
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
+func (s *FeedService) Create(feed *FeedConstruction) (*Feed, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds", s.client.Username)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
@@ -143,7 +143,7 @@ func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) CreateInGroup(feed *Feed, groupName string) (*Feed, *Response, error) {
+func (s *FeedService) CreateInGroup(feed *FeedConstruction, groupName string) (*Feed, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds?group_key=%v", s.client.Username, groupName)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
