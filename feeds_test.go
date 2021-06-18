@@ -87,16 +87,15 @@ func TestFeedCreate(t *testing.T) {
 	mux.HandleFunc("/api/v2/test-user/feeds",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":1, "name":"test"}`)
+			fmt.Fprint(w, `{"id":1, "name":"Test Feed", "key" : "test-feed"}`)
 		},
 	)
 
 	assert := assert.New(t)
 
-	nfeed := &Feed{
+	nfeed := &FeedCreation{
 		Name:        "Test Feed",
 		Description: "Test Feed",
-		Key:         "test",
 	}
 
 	feed, response, err := client.Feed.Create(nfeed)
@@ -105,8 +104,8 @@ func TestFeedCreate(t *testing.T) {
 	assert.NotNil(feed)
 	assert.NotNil(response)
 
-	assert.Equal(1, feed.ID)
-	assert.Equal("test", feed.Name)
+	assert.Equal("test-feed", feed.Key)
+	assert.Equal("Test Feed", feed.Name)
 }
 
 func TestFeedUpdate(t *testing.T) {

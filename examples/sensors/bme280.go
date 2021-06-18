@@ -37,34 +37,49 @@ func main() {
 	//get the client
 	client := connect()
 	//build the feeds
-	tempFed := aio.Feed{Name: "Temperature"}
-	humidFed := aio.Feed{Name: "Humidity"}
-	pressFed := aio.Feed{Name: "Pressure"}
+	tempFed := aio.FeedCreation{Name: "Temperature"}
+	humidFed := aio.FeedCreation{Name: "Humidity"}
+	pressFed := aio.FeedCreation{Name: "Pressure"}
 	//create the feeds
-	temp, _, err := client.Feed.Create(&tempFed)
+	_, _, err := client.Feed.Create(&tempFed)
 	if err != nil {
 		log.Println(err)
 	}
-	humid, _, err := client.Feed.Create(&humidFed)
+	_, _, err = client.Feed.Create(&humidFed)
 	if err != nil {
 		log.Println(err)
 	}
-	press, _, err := client.Feed.Create(&pressFed)
+	_, _, err = client.Feed.Create(&pressFed)
 	if err != nil {
 		log.Println(err)
+	}
+	tempFeed, _, err := client.Feed.Get("Temperature")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	humidFeed, _, err := client.Feed.Get("Humidity")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	pressureFeed, _, err := client.Feed.Get("Pressure")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 	//update the data
-	client.SetFeed(temp)
+	client.SetFeed(tempFeed)
 	_, _, err = client.Data.Create(&aio.Data{ID: "0", Value: "76"})
 	if err != nil {
 		log.Println(err)
 	}
-	client.SetFeed(humid)
+	client.SetFeed(humidFeed)
 	_, _, err = client.Data.Create(&aio.Data{ID: "1", Value: "53"})
 	if err != nil {
 		log.Println(err)
 	}
-	client.SetFeed(press)
+	client.SetFeed(pressureFeed)
 	_, _, err = client.Data.Create(&aio.Data{ID: "2", Value: "1125"})
 	if err != nil {
 		log.Println(err)
