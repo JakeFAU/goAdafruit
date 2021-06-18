@@ -37,9 +37,9 @@ func main() {
 	//get the client
 	client := connect()
 	//build the feeds
-	tempFed := aio.FeedConstruction{Name: "Temperature"}
-	humidFed := aio.FeedConstruction{Name: "Humidity"}
-	pressFed := aio.FeedConstruction{Name: "Pressure"}
+	tempFed := aio.Feed{Name: "Temperature"}
+	humidFed := aio.Feed{Name: "Humidity"}
+	pressFed := aio.Feed{Name: "Pressure"}
 	//create the feeds
 	temp, _, err := client.Feed.Create(&tempFed)
 	if err != nil {

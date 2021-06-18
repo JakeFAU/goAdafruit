@@ -84,7 +84,7 @@ func TestFeedCreate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	mux.HandleFunc("/api/v2/test-user/feeds/test",
+	mux.HandleFunc("/api/v2/test-user/feeds",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
 			fmt.Fprint(w, `{"id":1, "name":"test"}`)
@@ -93,7 +93,7 @@ func TestFeedCreate(t *testing.T) {
 
 	assert := assert.New(t)
 
-	nfeed := &FeedConstruction{
+	nfeed := &Feed{
 		Name:        "Test Feed",
 		Description: "Test Feed",
 		Key:         "test",

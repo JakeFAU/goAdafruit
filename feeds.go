@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-type FeedConstruction struct {
-	Name        string `json:"name,omitempty"`
-	Description string `json:"description,omitempty"`
-	Key         string `json:"key,omitempty"`
-}
-
 type Feed struct {
 	Username             string              `json:"username,omitempty"`
 	Owner                Owner               `json:"owner,omitempty"`
@@ -126,7 +120,7 @@ func (s *FeedService) GetDetails(id interface{}) (*Feed, *Response, error) {
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) Create(feed *FeedConstruction) (*Feed, *Response, error) {
+func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds", s.client.Username)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
@@ -139,11 +133,11 @@ func (s *FeedService) Create(feed *FeedConstruction) (*Feed, *Response, error) {
 		return nil, resp, err
 	}
 
-	return s.Get(feed.Key)
+	return feed, resp, nil
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) CreateInGroup(feed *FeedConstruction, groupName string) (*Feed, *Response, error) {
+func (s *FeedService) CreateInGroup(feed *Feed, groupName string) (*Feed, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds?group_key=%v", s.client.Username, groupName)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
@@ -156,7 +150,7 @@ func (s *FeedService) CreateInGroup(feed *FeedConstruction, groupName string) (*
 		return nil, resp, err
 	}
 
-	return s.Get(feed.Key)
+	return feed, resp, nil
 }
 
 // Update takes an ID and a Feed record, updates it, and returns an updated
