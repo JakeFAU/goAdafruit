@@ -136,6 +136,23 @@ func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
 	return feed, resp, nil
 }
 
+// Create takes a Feed record, creates it, and returns the updated record or an error.
+func (s *FeedService) CreateInGroup(feed *Feed, groupName string) (*Feed, *Response, error) {
+	path := fmt.Sprintf("api/v2/%v/feeds?group_key=%v", s.client.Username, groupName)
+
+	req, rerr := s.client.NewRequest("POST", path, feed)
+	if rerr != nil {
+		return nil, nil, rerr
+	}
+
+	resp, err := s.client.Do(req, feed)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return feed, resp, nil
+}
+
 // Update takes an ID and a Feed record, updates it, and returns an updated
 // record instance or an error.
 //
