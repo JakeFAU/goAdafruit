@@ -60,8 +60,8 @@ func (s *DataService) Create(dp *Data) (*Data, *Response, error) {
 	return point, resp, nil
 }
 
-// Create adds new Datam values to an existing Feed.
-func (s *DataService) CreateBatch(dp *[]Data) (*Data, *Response, error) {
+// Create adds new Data values to an existing Feed.
+func (s *DataService) CreateBatch(dp *[]Data) (*[]Data, *Response, error) {
 	path, ferr := s.client.Feed.Path("/data/batch")
 	if ferr != nil {
 		return nil, nil, ferr
@@ -73,7 +73,7 @@ func (s *DataService) CreateBatch(dp *[]Data) (*Data, *Response, error) {
 	}
 
 	// request populates a new datapoint
-	point := &Data{}
+	point := &[]Data{}
 	resp, err := s.client.Do(req, point)
 	if err != nil {
 		return nil, resp, err
