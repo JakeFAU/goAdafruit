@@ -6,6 +6,20 @@ import (
 	"time"
 )
 
+type FeedCreation struct {
+	Name          string      `json:"name,omitempty"`
+	Key           string      `json:"key,omitempty"`
+	Description   string      `json:"description,omitempty"`
+	UnitType      interface{} `json:"unit_type,omitempty"`
+	UnitSymbol    interface{} `json:"unit_symbol,omitempty"`
+	History       bool        `json:"history,omitempty"`
+	Visibility    string      `json:"visibility,omitempty"`
+	License       interface{} `json:"license,omitempty"`
+	StatusNotify  bool        `json:"status_notify,omitempty"`
+	StatusTimeout int         `json:"status_timeout,omitempty"`
+	Enabled       bool        `json:"enabled,omitempty"`
+}
+
 type Feed struct {
 	Username             string              `json:"username,omitempty"`
 	Owner                Owner               `json:"owner,omitempty"`
@@ -120,7 +134,7 @@ func (s *FeedService) GetDetails(id interface{}) (*Feed, *Response, error) {
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
+func (s *FeedService) Create(feed *FeedCreation) (*FeedCreation, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds", s.client.Username)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
@@ -137,7 +151,7 @@ func (s *FeedService) Create(feed *Feed) (*Feed, *Response, error) {
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
-func (s *FeedService) CreateInGroup(feed *Feed, groupName string) (*Feed, *Response, error) {
+func (s *FeedService) CreateInGroup(feed *FeedCreation, groupName string) (*FeedCreation, *Response, error) {
 	path := fmt.Sprintf("api/v2/%v/feeds?group_key=%v", s.client.Username, groupName)
 
 	req, rerr := s.client.NewRequest("POST", path, feed)
