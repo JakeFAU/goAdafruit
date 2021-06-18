@@ -1,7 +1,7 @@
 # goAdafruit
 Go SDK for Adafruit IO
 
-<a href="https://pkg.go.dev/github.com/jakefau/goAdafruit"><img src="https://pkg.go.dev/badge/github.com/jakefau/goAdafruit.svg" alt="Go Reference"></a>
+[![Go Reference](https://pkg.go.dev/badge/github.com/jakefau/goAdafruit.svg)](https://pkg.go.dev/github.com/jakefau/goAdafruit)
 
 A go client library for talking to your io.adafruit.com account. This SDK is for V2 of the io.adafruit.com API.  It works basically as the V1 version, just expanded to take advantage of all the features of V2
 
