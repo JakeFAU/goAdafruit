@@ -139,7 +139,7 @@ func (s *FeedService) Create(feed *FeedConstruction) (*Feed, *Response, error) {
 		return nil, resp, err
 	}
 
-	return feed, resp, nil
+	return s.Get(feed.Key)
 }
 
 // Create takes a Feed record, creates it, and returns the updated record or an error.
@@ -156,7 +156,7 @@ func (s *FeedService) CreateInGroup(feed *FeedConstruction, groupName string) (*
 		return nil, resp, err
 	}
 
-	return feed, resp, nil
+	return s.Get(feed.Key)
 }
 
 // Update takes an ID and a Feed record, updates it, and returns an updated
