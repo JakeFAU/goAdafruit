@@ -126,34 +126,32 @@ func (s *GroupService) CreateFeedInGroup(id interface{}, f *Feed) (*Feed, *Respo
 }
 
 // Add a feed to a group
-func (s GroupService) AddFeedToGroup(id interface{}, f *Feed) (*Feed, *Response, error) {
-	path := fmt.Sprintf("api/v2/%v/groups/%v/add", s.client.Username, id)
+func (s GroupService) AddFeedToGroup(groupID string, feedID string) (*Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/add?feed_key=%v", s.client.Username, groupID, feedID)
 
-	req, rerr := s.client.NewRequest("POST", path, f)
-	if rerr != nil {
-		return nil, nil, rerr
-	}
-
-	var feed Feed
-	resp, err := s.client.Do(req, &feed)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return &feed, resp, nil
-}
-
-// Remove a feed from a group
-func (s GroupService) RemoveFeedFromGroup(id interface{}, f *Feed) (*Response, error) {
-	path := fmt.Sprintf("api/v2/%v/groups/%v/remove", s.client.Username, id)
-
-	req, rerr := s.client.NewRequest("POST", path, f)
+	req, rerr := s.client.NewRequest("POST", path, nil)
 	if rerr != nil {
 		return nil, rerr
 	}
 
-	var feed Feed
-	resp, err := s.client.Do(req, &feed)
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
+}
+
+// Remove a feed from a group
+func (s GroupService) RemoveFeedFromGroup(groupID string, feedID string) (*Response, error) {
+	path := fmt.Sprintf("api/v2/%v/groups/%v/remove?feed_key=%v", s.client.Username, groupID, feedID)
+
+	req, rerr := s.client.NewRequest("POST", path, nil)
+	if rerr != nil {
+		return nil, rerr
+	}
+
+	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return resp, err
 	}

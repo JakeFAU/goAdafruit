@@ -205,22 +205,19 @@ func TestAddFeedToGroup(t *testing.T) {
 	mux.HandleFunc("/api/v2/test-user/groups/test/add",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"id": 1}]}`)
+			testQuery(t, r, "feed_key", "test")
+			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"name": "test"}]}`)
 		},
 	)
 
 	assert := assert.New(t)
 
-	ngroup := &Group{Name: "test"}
-	nfeed := &Feed{ID: 1}
-
-	feed, response, err := client.Group.AddFeedToGroup(ngroup.Name, nfeed)
+	response, err := client.Group.AddFeedToGroup("test", "test")
 
 	assert.Nil(err)
-	assert.NotNil(feed)
 	assert.NotNil(response)
 
-	assert.Equal(1, feed.ID)
+	assert.Equal(200, response.StatusCode)
 
 }
 
@@ -231,13 +228,14 @@ func TestRemoveFeedFromGroup(t *testing.T) {
 	mux.HandleFunc("/api/v2/test-user/groups/test/remove",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"id": 1}]}`)
+			testQuery(t, r, "feed_key", "test")
+			fmt.Fprint(w, `{"id":1, "name":"test", "feeds": [{"name": "test}]}`)
 		},
 	)
-	nfeed := &Feed{ID: 1}
+
 	assert := assert.New(t)
 
-	response, err := client.Group.RemoveFeedFromGroup("test", nfeed)
+	response, err := client.Group.RemoveFeedFromGroup("test", "test")
 
 	assert.Nil(err)
 	assert.NotNil(response)
