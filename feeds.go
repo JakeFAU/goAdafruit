@@ -7,43 +7,43 @@ import (
 )
 
 type Feed struct {
-	Username             string              `json:"username"`
-	Owner                Owner               `json:"owner"`
-	ID                   int                 `json:"id"`
-	Name                 string              `json:"name"`
-	Description          string              `json:"description"`
-	License              interface{}         `json:"license"`
-	History              bool                `json:"history"`
-	Enabled              bool                `json:"enabled"`
-	Visibility           string              `json:"visibility"`
-	UnitType             interface{}         `json:"unit_type"`
-	UnitSymbol           interface{}         `json:"unit_symbol"`
-	LastValue            string              `json:"last_value"`
-	CreatedAt            time.Time           `json:"created_at"`
-	UpdatedAt            time.Time           `json:"updated_at"`
-	StatusNotify         bool                `json:"status_notify"`
-	StatusTimeout        int                 `json:"status_timeout"`
-	Status               string              `json:"status"`
-	Key                  string              `json:"key"`
-	Writable             bool                `json:"writable"`
-	Group                Group               `json:"group"`
-	Groups               []Groups            `json:"groups"`
-	FeedWebhookReceivers []interface{}       `json:"feed_webhook_receivers"`
-	FeedStatusChanges    []FeedStatusChanges `json:"feed_status_changes"`
+	Username             string              `json:"username,omitempty"`
+	Owner                Owner               `json:"owner,omitempty"`
+	ID                   int                 `json:"id,omitempty"`
+	Name                 string              `json:"name,omitempty"`
+	Description          string              `json:"description,omitempty"`
+	License              interface{}         `json:"license,omitempty"`
+	History              bool                `json:"history,omitempty"`
+	Enabled              bool                `json:"enabled,omitempty"`
+	Visibility           string              `json:"visibility,omitempty"`
+	UnitType             interface{}         `json:"unit_type,omitempty"`
+	UnitSymbol           interface{}         `json:"unit_symbol,omitempty"`
+	LastValue            string              `json:"last_value,omitempty"`
+	CreatedAt            time.Time           `json:"created_at,omitempty"`
+	UpdatedAt            time.Time           `json:"updated_at,omitempty"`
+	StatusNotify         bool                `json:"status_notify,omitempty"`
+	StatusTimeout        int                 `json:"status_timeout,omitempty"`
+	Status               string              `json:"status,omitempty"`
+	Key                  string              `json:"key,omitempty"`
+	Writable             bool                `json:"writable,omitempty"`
+	Group                Group               `json:"group,omitempty"`
+	Groups               []Groups            `json:"groups,omitempty"`
+	FeedWebhookReceivers []interface{}       `json:"feed_webhook_receivers,omitempty"`
+	FeedStatusChanges    []FeedStatusChanges `json:"feed_status_changes,omitempty"`
 }
 
 type Groups struct {
-	ID     int    `json:"id"`
-	Key    string `json:"key"`
-	Name   string `json:"name"`
-	UserID int    `json:"user_id"`
+	ID     int    `json:"id,omitempty"`
+	Key    string `json:"key,omitempty"`
+	Name   string `json:"name,omitempty"`
+	UserID int    `json:"user_id,omitempty"`
 }
 type FeedStatusChanges struct {
-	CreatedAt   time.Time   `json:"created_at"`
-	FromStatus  string      `json:"from_status"`
-	ToStatus    string      `json:"to_status"`
-	EmailSent   interface{} `json:"email_sent"`
-	EmailSentTo interface{} `json:"email_sent_to"`
+	CreatedAt   time.Time   `json:"created_at,omitempty"`
+	FromStatus  string      `json:"from_status,omitempty"`
+	ToStatus    string      `json:"to_status,omitempty"`
+	EmailSent   interface{} `json:"email_sent,omitempty"`
+	EmailSentTo interface{} `json:"email_sent_to,omitempty"`
 }
 
 type FeedService struct {
