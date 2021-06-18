@@ -19,6 +19,8 @@ type Feed struct {
 	UnitType             interface{}         `json:"unit_type,omitempty"`
 	UnitSymbol           interface{}         `json:"unit_symbol,omitempty"`
 	LastValue            string              `json:"last_value,omitempty"`
+	CreatedAt            time.Time           `json:"created_at,omitempty"`
+	UpdatedAt            time.Time           `json:"updated_at,omitempty"`
 	StatusNotify         bool                `json:"status_notify,omitempty"`
 	StatusTimeout        int                 `json:"status_timeout,omitempty"`
 	Status               string              `json:"status,omitempty"`
