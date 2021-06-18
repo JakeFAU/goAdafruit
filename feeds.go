@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+type FeedConstruction struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Key         string `json:"key,omitempty"`
+}
+
 type Feed struct {
 	Username             string              `json:"username,omitempty"`
 	Owner                Owner               `json:"owner,omitempty"`
