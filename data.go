@@ -2,7 +2,7 @@ package goadafruit
 
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"strconv"
 	"strings"
@@ -337,8 +337,12 @@ func (s *DataService) MostRecent() (*string, *Response, error) {
 	}
 	defer resp.Body.Close()
 
-	b, _ := io.ReadAll(resp.Body)
-	bd := string(b)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bd := string(bodyBytes)
+
 	return &bd, resp, nil
 
 }
