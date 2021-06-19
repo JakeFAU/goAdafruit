@@ -31,30 +31,6 @@ func TestGetAllTokens(t *testing.T) {
 
 }
 
-func TestCreateToken(t *testing.T) {
-	setup()
-	defer teardown()
-
-	mux.HandleFunc("/api/v2/test-user/tokens",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
-		},
-	)
-
-	token := Token{Token: "Iamatoken"}
-
-	assert := assert.New(t)
-
-	tok, response, err := client.Tokens.CreateToken(token)
-
-	assert.Nil(err)
-	assert.NotNil(tok)
-	assert.NotNil(response)
-
-	assert.Equal("Iamatoken", tok.Token)
-
-}
-
 func TestGetToken(t *testing.T) {
 	setup()
 	defer teardown()
