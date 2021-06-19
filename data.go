@@ -309,7 +309,7 @@ func (s *DataService) Next() (*Data, *Response, error) {
 
 // Prev returns the previous Data in the stream.
 func (s *DataService) Prev() (*Data, *Response, error) {
-	return s.retrieve("prev")
+	return s.retrieve("previous")
 }
 
 // Last returns the last Data in the stream.
