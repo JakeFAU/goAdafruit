@@ -331,8 +331,7 @@ func (s *DataService) MostRecent() (*string, *Response, error) {
 	if rerr != nil {
 		return nil, nil, rerr
 	}
-	var v interface{}
-	resp, err := s.client.Do(req, v)
+	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return nil, resp, err
 	}
