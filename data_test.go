@@ -1,8 +1,10 @@
 package goadafruit
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -91,7 +93,7 @@ func TestDataGet(t *testing.T) {
 	defer teardown()
 
 	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/feeds/temperature/data/1",
+	mux.HandleFunc("/api/v2/test-user/feeds/temperature/data/0ERN7NE8FNEK5KGX00SW2GK31B",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
 			fmt.Fprint(w, `{"ID":"0ERN7NE8FNEK5KGX00SW2GK31B", "value":"67.112"}`)
@@ -108,7 +110,7 @@ func TestDataGet(t *testing.T) {
 	assert.NotNil(datapoint)
 	assert.NotNil(response)
 
-	assert.Equal("1", datapoint.ID)
+	assert.Equal("0ERN7NE8FNEK5KGX00SW2GK31B", datapoint.ID)
 	assert.Equal("67.112", datapoint.Value)
 }
 
@@ -207,7 +209,7 @@ func TestDataQueue(t *testing.T) {
 		},
 	)
 
-	mux.HandleFunc("/api/v2/test-user/feeds/temperature/data/prev",
+	mux.HandleFunc("/api/v2/test-user/feeds/temperature/data/previous",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
 			fmt.Fprint(w, `{"id":"2", "value":"2"}`)
@@ -255,12 +257,6 @@ func TestDataQueue(t *testing.T) {
 	assert.NotNil(response)
 	assert.Equal("3", datapoint.ID)
 	assert.Equal("3", datapoint.Value)
-
-	csv, response, err := client.Data.MostRecent()
-	assert.Nil(err)
-	assert.NotNil(response)
-	assert.NotNil(csv)
-
 }
 
 func TestChartData(t *testing.T) {
@@ -359,6 +355,48 @@ func TestCreateDatamInGroup(t *testing.T) {
 	var dp = []Data{*dp1, *dp2}
 
 	datapoint, response, err := client.Data.CreateDataInGroup("test-group", &dp)
+
+	assert.Nil(err)
+	assert.NotNil(datapoint)
+	assert.NotNil(response)
+}
+
+func TestGroupData(t *testing.T) {
+	setup()
+	defer teardown()
+
+	// prepare endpoint URL for just this request
+	mux.HandleFunc("/api/v2/test-user/groups/test-group/data",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"id":"1", "value":"67"}`)
+		},
+	)
+
+	assert := assert.New(t)
+
+	j := `{
+		"feeds": [
+		  {
+			"key": "temperature",
+			"value": "75"
+		  },
+		  {
+			"key": "humidity",
+			"value": "51"
+		  }
+		]
+	  }`
+
+	gdp := GroupData{}
+	err := json.Unmarshal([]byte(j), &gdp)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	datapoint, response, err := client.Data.CreateGroupData("test-group", gdp)
+	fmt.Println(response.Body)
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)

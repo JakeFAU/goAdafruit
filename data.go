@@ -2,7 +2,6 @@ package goadafruit
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"strconv"
 	"strings"
@@ -22,6 +21,23 @@ type Data struct {
 	Ele          string `json:"ele,omitempty"`
 	CreatedEpoch int    `json:"created_epoch,omitempty"`
 	Expiration   string `json:"expiration,omitempty"`
+}
+
+type GroupData struct {
+	Feeds []struct {
+		Key   string `json:"key"`
+		Value string `json:"value"`
+	} `json:"feeds"`
+}
+
+type GroupDataResults struct {
+	ID           string `json:"id"`
+	Value        string `json:"value"`
+	FeedID       int    `json:"feed_id"`
+	FeedKey      string `json:"feed_key"`
+	CreatedAt    string `json:"created_at"`
+	CreatedEpoch int    `json:"created_epoch"`
+	Expiration   string `json:"expiration"`
 }
 
 type DataPoint struct {
@@ -322,31 +338,6 @@ func (s *DataService) First() (*Data, *Response, error) {
 	return s.retrieve("first")
 }
 
-func (s *DataService) MostRecent() (*string, *Response, error) {
-	path, ferr := s.client.Feed.Path("/data/retain")
-	if ferr != nil {
-		return nil, nil, ferr
-	}
-	req, rerr := s.client.NewRequest("GET", path, nil)
-	if rerr != nil {
-		return nil, nil, rerr
-	}
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return nil, resp, err
-	}
-	defer resp.Body.Close()
-
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	bd := string(bodyBytes)
-
-	return &bd, resp, nil
-
-}
-
 func (s *DataService) CreateDatumInGroup(groupKey string, data *Data) (*Data, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/groups/%v/feeds/%v/data", s.client.Username, groupKey, s.client.Feed.CurrentFeed.ID)
 
@@ -382,6 +373,24 @@ func (s *DataService) CreateDataInGroup(groupKey string, dp *[]Data) (*Data, *Re
 	}
 
 	return point, resp, nil
+}
+
+func (s *DataService) CreateGroupData(groupKey string, gd GroupData) (*GroupDataResults, *Response, error) {
+	path := fmt.Sprintf("/api/v2/%v/groups/%v/data", s.client.Username, groupKey)
+
+	req, rerr := s.client.NewRequest("POST", path, gd)
+	if rerr != nil {
+		return nil, nil, rerr
+	}
+
+	// request populates a new datapoint
+	points := &GroupDataResults{}
+	resp, err := s.client.Do(req, points)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return points, resp, nil
 
 }
 
