@@ -84,10 +84,10 @@ func (s *TokenService) GetToken(id string) (*TokenResponse, *Response, error) {
 	return &t, resp, nil
 }
 
-func (s *TokenService) DeleteToken(id string, tok Token) (*Response, error) {
+func (s *TokenService) DeleteToken(id string) (*Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/tokens/%v", s.client.Username, id)
 
-	req, rerr := s.client.NewRequest("DELETE", path, tok)
+	req, rerr := s.client.NewRequest("DELETE", path, nil)
 	if rerr != nil {
 		return nil, rerr
 	}

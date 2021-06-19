@@ -63,9 +63,7 @@ func TestDeleteToken(t *testing.T) {
 
 	assert := assert.New(t)
 
-	tok := Token{Token: "1"}
-
-	response, err := client.Tokens.DeleteToken("1", tok)
+	response, err := client.Tokens.DeleteToken("1")
 	assert.Nil(err)
 	assert.NotNil(response)
 }
