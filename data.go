@@ -262,7 +262,7 @@ func (s *DataService) Update(id interface{}, data *Data) (*Data, *Response, erro
 }
 
 // Delete the Data identified by the given ID.
-func (s *DataService) Delete(id int) (*Response, error) {
+func (s *DataService) Delete(string int) (*Response, error) {
 	path, ferr := s.client.Feed.Path(fmt.Sprintf("/data/%v", id))
 	if ferr != nil {
 		return nil, ferr
