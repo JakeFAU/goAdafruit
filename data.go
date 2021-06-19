@@ -219,7 +219,7 @@ func (s *DataService) Search(filter *DataFilter) ([]*Data, *Response, error) {
 }
 
 // Get returns a single Data element, identified by the given ID parameter.
-func (s *DataService) Get(id int) (*Data, *Response, error) {
+func (s *DataService) Get(id string) (*Data, *Response, error) {
 	path, ferr := s.client.Feed.Path(fmt.Sprintf("/data/%v", id))
 	if ferr != nil {
 		return nil, nil, ferr

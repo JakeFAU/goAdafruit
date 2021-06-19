@@ -94,7 +94,7 @@ func TestDataGet(t *testing.T) {
 	mux.HandleFunc("/api/v2/test-user/feeds/temperature/data/1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
-			fmt.Fprint(w, `{"ID":"1", "value":"67.112"}`)
+			fmt.Fprint(w, `{"ID":"0ERN7NE8FNEK5KGX00SW2GK31B", "value":"67.112"}`)
 		},
 	)
 
@@ -102,7 +102,7 @@ func TestDataGet(t *testing.T) {
 
 	client.SetFeed(&Feed{Key: "temperature"})
 
-	datapoint, response, err := client.Data.Get(1)
+	datapoint, response, err := client.Data.Get("0ERN7NE8FNEK5KGX00SW2GK31B")
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)
