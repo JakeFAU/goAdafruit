@@ -347,7 +347,7 @@ func (s *DataService) MostRecent() (*string, *Response, error) {
 
 }
 
-func (s *DataService) CreateDataInGroup(groupKey string, data *Data) (*Data, *Response, error) {
+func (s *DataService) CreateDatumInGroup(groupKey string, data *Data) (*Data, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/groups/%v/feeds/%v/data", s.client.Username, groupKey, s.client.Feed.CurrentFeed.ID)
 
 	req, rerr := s.client.NewRequest("POST", path, data)
@@ -366,7 +366,7 @@ func (s *DataService) CreateDataInGroup(groupKey string, data *Data) (*Data, *Re
 
 }
 
-func (s *DataService) CreateDatumInGroup(groupKey string, dp *[]Data) (*Data, *Response, error) {
+func (s *DataService) CreateDataInGroup(groupKey string, dp *[]Data) (*Data, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/groups/%v/feeds/%v/data/batch", s.client.Username, groupKey, s.client.Feed.CurrentFeed.ID)
 
 	req, rerr := s.client.NewRequest("POST", path, dp)

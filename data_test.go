@@ -320,7 +320,7 @@ func TestCreateDataInGroup(t *testing.T) {
 		ID:    "temperature",
 		Value: val,
 	}
-	datapoint, response, err := client.Data.CreateDataInGroup("test-group", dp)
+	datapoint, response, err := client.Data.CreateDatumInGroup("test-group", dp)
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)
@@ -358,7 +358,7 @@ func TestCreateDatamInGroup(t *testing.T) {
 
 	var dp = []Data{*dp1, *dp2}
 
-	datapoint, response, err := client.Data.CreateDatumInGroup("test-group", &dp)
+	datapoint, response, err := client.Data.CreateDataInGroup("test-group", &dp)
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)
