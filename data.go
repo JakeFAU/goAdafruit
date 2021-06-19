@@ -17,11 +17,11 @@ type Data struct {
 	CreatedAt string `json:"created_at,omitempty"`
 	Location  struct {
 	} `json:"location,omitempty"`
-	Lat          float64 `json:"lat,omitempty"`
-	Lon          float64 `json:"lon,omitempty"`
-	Ele          float64 `json:"ele,omitempty"`
-	CreatedEpoch int     `json:"created_epoch,omitempty"`
-	Expiration   string  `json:"expiration,omitempty"`
+	Lat          string `json:"lat,omitempty"`
+	Lon          string `json:"lon,omitempty"`
+	Ele          string `json:"ele,omitempty"`
+	CreatedEpoch int    `json:"created_epoch,omitempty"`
+	Expiration   string `json:"expiration,omitempty"`
 }
 
 type DataPoint struct {
