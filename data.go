@@ -338,43 +338,6 @@ func (s *DataService) First() (*Data, *Response, error) {
 	return s.retrieve("first")
 }
 
-func (s *DataService) CreateDatumInGroup(groupKey string, feedID int, data *Data) (*Data, *Response, error) {
-	path := fmt.Sprintf("/api/v2/%v/groups/%v/feeds/%v/data", s.client.Username, groupKey, feedID)
-
-	req, rerr := s.client.NewRequest("POST", path, data)
-	if rerr != nil {
-		return nil, nil, rerr
-	}
-
-	// request populates a new datapoint
-	point := &Data{}
-	resp, err := s.client.Do(req, point)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return point, resp, nil
-
-}
-
-func (s *DataService) CreateDataInGroup(groupKey string, feedID int, dp *[]Data) (*Data, *Response, error) {
-	path := fmt.Sprintf("/api/v2/%v/groups/%v/feeds/%v/data/batch", s.client.Username, groupKey, feedID)
-
-	req, rerr := s.client.NewRequest("POST", path, dp)
-	if rerr != nil {
-		return nil, nil, rerr
-	}
-
-	// request populates a new datapoint
-	point := &Data{}
-	resp, err := s.client.Do(req, point)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return point, resp, nil
-}
-
 func (s *DataService) CreateGroupData(groupKey string, gd GroupData) (*[]GroupDataResults, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/groups/%v/data", s.client.Username, groupKey)
 
