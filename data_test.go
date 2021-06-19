@@ -187,7 +187,7 @@ func TestDataDelete(t *testing.T) {
 
 	client.SetFeed(&Feed{Key: "test"})
 
-	response, err := client.Data.Delete(1)
+	response, err := client.Data.Delete("1")
 
 	assert.Nil(err)
 	assert.NotNil(response)
