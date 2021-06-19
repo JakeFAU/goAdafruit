@@ -10,7 +10,7 @@ type Token struct {
 }
 
 type TokenResponse struct {
-	ID         string      `json:"id"`
+	ID         interface{} `json:"id"`
 	Key        string      `json:"key"`
 	Master     bool        `json:"master"`
 	Createable bool        `json:"createable"`
