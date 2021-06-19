@@ -299,7 +299,7 @@ func TestCreateDataInGroup(t *testing.T) {
 	defer teardown()
 
 	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/0/data",
+	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/1/data",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
 			fmt.Fprint(w, `{"id":"1", "value":"67.112"}`)
@@ -316,7 +316,7 @@ func TestCreateDataInGroup(t *testing.T) {
 		ID:    "temperature",
 		Value: val,
 	}
-	datapoint, response, err := client.Data.CreateDatumInGroup("test-group", dp)
+	datapoint, response, err := client.Data.CreateDatumInGroup("test-group", 1, dp)
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)
@@ -331,7 +331,7 @@ func TestCreateDatamInGroup(t *testing.T) {
 	defer teardown()
 
 	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/0/data/batch",
+	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/1/data/batch",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
 			fmt.Fprint(w, `{"id":"1", "value":"67"}`)
@@ -354,7 +354,7 @@ func TestCreateDatamInGroup(t *testing.T) {
 
 	var dp = []Data{*dp1, *dp2}
 
-	datapoint, response, err := client.Data.CreateDataInGroup("test-group", &dp)
+	datapoint, response, err := client.Data.CreateDataInGroup("test-group", 1, &dp)
 
 	assert.Nil(err)
 	assert.NotNil(datapoint)
@@ -369,7 +369,7 @@ func TestGroupData(t *testing.T) {
 	mux.HandleFunc("/api/v2/test-user/groups/test-group/data",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":"1", "value":"67"}`)
+			fmt.Fprint(w, `[{"id":"1", "value":"67"},{"id":"2", "value" : "50"}]`)
 		},
 	)
 
