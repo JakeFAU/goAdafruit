@@ -375,7 +375,7 @@ func (s *DataService) CreateDataInGroup(groupKey string, dp *[]Data) (*Data, *Re
 	return point, resp, nil
 }
 
-func (s *DataService) CreateGroupData(groupKey string, gd GroupData) (*GroupDataResults, *Response, error) {
+func (s *DataService) CreateGroupData(groupKey string, gd GroupData) (*[]GroupDataResults, *Response, error) {
 	path := fmt.Sprintf("/api/v2/%v/groups/%v/data", s.client.Username, groupKey)
 
 	req, rerr := s.client.NewRequest("POST", path, gd)
@@ -384,7 +384,7 @@ func (s *DataService) CreateGroupData(groupKey string, gd GroupData) (*GroupData
 	}
 
 	// request populates a new datapoint
-	points := &GroupDataResults{}
+	points := &[]GroupDataResults{}
 	resp, err := s.client.Do(req, points)
 	if err != nil {
 		return nil, resp, err
