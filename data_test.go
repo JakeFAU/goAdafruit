@@ -1,10 +1,8 @@
 package goadafruit
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -292,113 +290,4 @@ func TestChartData(t *testing.T) {
 	assert.NotNil(response)
 	assert.NotNil(datapoints)
 
-}
-
-func TestCreateDataInGroup(t *testing.T) {
-	setup()
-	defer teardown()
-
-	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/1/data",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":"1", "value":"67.112"}`)
-		},
-	)
-
-	assert := assert.New(t)
-
-	client.SetFeed(&Feed{Key: "temperature"})
-
-	val := "67.112"
-
-	dp := &Data{
-		ID:    "temperature",
-		Value: val,
-	}
-	datapoint, response, err := client.Data.CreateDatumInGroup("test-group", 1, dp)
-
-	assert.Nil(err)
-	assert.NotNil(datapoint)
-	assert.NotNil(response)
-
-	assert.Equal("1", datapoint.ID)
-	assert.Equal(val, datapoint.Value)
-}
-
-func TestCreateDatamInGroup(t *testing.T) {
-	setup()
-	defer teardown()
-
-	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/groups/test-group/feeds/1/data/batch",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":"1", "value":"67"}`)
-		},
-	)
-
-	assert := assert.New(t)
-
-	client.SetFeed(&Feed{Key: "temperature"})
-
-	dp1 := &Data{
-		ID:    "temperature",
-		Value: "67",
-	}
-
-	dp2 := &Data{
-		ID:    "temperature",
-		Value: "68",
-	}
-
-	var dp = []Data{*dp1, *dp2}
-
-	datapoint, response, err := client.Data.CreateDataInGroup("test-group", 1, &dp)
-
-	assert.Nil(err)
-	assert.NotNil(datapoint)
-	assert.NotNil(response)
-}
-
-func TestGroupData(t *testing.T) {
-	setup()
-	defer teardown()
-
-	// prepare endpoint URL for just this request
-	mux.HandleFunc("/api/v2/test-user/groups/test-group/data",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
-			fmt.Fprint(w, `[{"id":"1", "value":"67"},{"id":"2", "value" : "50"}]`)
-		},
-	)
-
-	assert := assert.New(t)
-
-	j := `{
-		"feeds": [
-		  {
-			"key": "temperature",
-			"value": "75"
-		  },
-		  {
-			"key": "humidity",
-			"value": "51"
-		  }
-		]
-	  }`
-
-	gdp := GroupData{}
-	err := json.Unmarshal([]byte(j), &gdp)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	datapoint, response, err := client.Data.CreateGroupData("test-group", gdp)
-	fmt.Println(response.Body)
-
-	assert.Nil(err)
-	assert.NotNil(datapoint)
-	assert.NotNil(response)
 }
